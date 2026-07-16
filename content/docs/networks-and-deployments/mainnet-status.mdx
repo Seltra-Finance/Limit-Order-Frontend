@@ -1,0 +1,35 @@
+---
+title: "Mainnet Status"
+description: "Seltra is not deployed on Avalanche mainnet."
+section: "Networks & Deployments"
+order: 27
+---
+
+Seltra is **not deployed on Avalanche mainnet**.
+
+The production adapter implementations use the following reserved IDs:
+
+| ID | Venue              |
+| -: | ------------------ |
+|  1 | LFJ Liquidity Book |
+|  2 | Blackhole          |
+|  3 | Pharaoh Exchange   |
+
+All three implementations have unit tests and live Avalanche mainnet-fork coverage, including complete Settlement fill paths. This validation is engineering evidence, not a substitute for an independent audit or production release approval.
+
+### Mainnet gates
+
+* Independent smart-contract audit and remediation
+* Final release commit and reproducible deployment artifacts
+* Distributed Safe signer selection and guardian policy
+* Timelock ownership verification
+* Contract source and constructor-argument verification
+* Production RPC, keeper, indexer, monitoring, and incident operations
+* Token and venue allowlist approval
+* Controlled rollout limits and pause drills
+
+<Callout type="warning">
+
+Do not infer a Seltra mainnet deployment from venue adapter code or fork tests. Official addresses will be published here only after deployment and verification.
+
+</Callout>

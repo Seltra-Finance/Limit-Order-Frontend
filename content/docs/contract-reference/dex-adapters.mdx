@@ -1,0 +1,38 @@
+---
+title: "DEX Adapters"
+description: "abi.encode("
+section: "Contract Reference"
+order: 21
+---
+
+| ID | Adapter          | Route `extra`                               | Status                    |
+| -: | ---------------- | ------------------------------------------- | ------------------------- |
+|  0 | MockDEXAdapter   | Empty bytes                                 | Fuji test stack only      |
+|  1 | LFJLBAdapter     | Deadline, bin steps, versions, token path   | Production implementation |
+|  2 | BlackholeAdapter | Deadline and one allowlisted RouterV2 route | Production implementation |
+|  3 | PharaohAdapter   | `abi.encode(int24 tickSpacing)`             | Production implementation |
+
+### LFJ Liquidity Book
+
+```solidity
+abi.encode(
+    uint256 deadline,
+    uint256[] pairBinSteps,
+    uint8[] versions,
+    address[] tokenPath
+)
+```
+
+Path endpoints must match the order-derived assets. Quotes use LBQuoter best-path discovery; swaps use the LBRouter.
+
+### Blackhole
+
+The V1 adapter accepts one direct hop. The pool must be allowlisted, route endpoints must match the order, and the route receiver must be the Seltra router. Quotes use RouterHelper.
+
+### Pharaoh
+
+The adapter supports one concentrated-liquidity hop. Tick spacing must be positive. The official QuoterV2 performs an internal simulated swap, so clients invoke router quotes through `eth_call` rather than relying on Solidity `STATICCALL`.
+
+### Shared safeguards
+
+Every swap is callable only by the Seltra router. Venue approvals are exact-amount and cleared after execution. Output is measured by balance delta.

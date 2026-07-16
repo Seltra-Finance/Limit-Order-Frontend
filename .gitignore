@@ -10,8 +10,9 @@ dist
 services/orderbook-api/data/
 services/orderbook-api/.env
 
-# internal docs (specs, readiness plan, briefs, deploy guide) never leave this machine
-docs/
+# internal docs (specs, readiness plan, briefs, deploy guide) never leave this
+# machine — root-anchored so app/docs, content/docs, src/docs stay tracked
+/docs/
 # raw brand assets; web-ready exports go to public/ when wired in
 images/
 
