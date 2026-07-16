@@ -4,10 +4,13 @@ out
 dist
 .env*.local
 *.tsbuildinfo
-
+.DS_Store
 
 # orderbook-api local storage
 services/orderbook-api/data/
 services/orderbook-api/.env
-docs
+
+# internal docs (specs, readiness plan, briefs, deploy guide) never leave this machine
+docs/
+
 .claude

@@ -1,11 +1,12 @@
 "use client";
 
+import { useAppKit } from "@reown/appkit/react";
 import { ChevronDown, Copy, ExternalLink, LogOut, Wallet, X } from "lucide-react";
 import { createContext, useContext, useMemo, useState } from "react";
 import { useAccount, useBalance, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { seltraConfig } from "@/config/seltra.config";
 import { compactAddress } from "@/lib/format";
-import { activeChain } from "@/lib/wallet";
+import { activeChain, appKitEnabled } from "@/lib/wallet";
 
 const WalletDialogContext = createContext<() => void>(() => undefined);
 
@@ -14,6 +15,19 @@ export function useWalletDialog() {
 }
 
 export function WalletDialogProvider({ children }: { children: React.ReactNode }) {
+  // appKitEnabled is fixed at build time, so the branch never changes between renders.
+  if (appKitEnabled) return <AppKitDialogProvider>{children}</AppKitDialogProvider>;
+  return <LegacyDialogProvider>{children}</LegacyDialogProvider>;
+}
+
+/** Reown AppKit owns the connect modal (wallet discovery, deep links, WalletConnect). */
+function AppKitDialogProvider({ children }: { children: React.ReactNode }) {
+  const { open } = useAppKit();
+  return <WalletDialogContext.Provider value={() => void open({ view: "Connect" })}>{children}</WalletDialogContext.Provider>;
+}
+
+/** Hand-built connector list; used only until a Reown project id is configured. */
+function LegacyDialogProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const { connectors, connect, isPending } = useConnect();
   const visibleConnectors = useMemo(

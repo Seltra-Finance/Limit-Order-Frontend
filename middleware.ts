@@ -18,11 +18,13 @@ const connectSrc = [
   originOf(process.env.NEXT_PUBLIC_API_REST_URL, "http://localhost:8080"),
   originOf(process.env.NEXT_PUBLIC_API_WS_URL, "ws://localhost:8080"),
   originOf(process.env.NEXT_PUBLIC_RPC_URL, "https://api.avax-test.network"),
-  // WalletConnect relay/verify/explorer + Coinbase Wallet SDK endpoints.
+  // WalletConnect/Reown relay/verify/AppKit API + Coinbase Wallet SDK endpoints.
   "wss://relay.walletconnect.com",
   "wss://relay.walletconnect.org",
   "https://*.walletconnect.com",
   "https://*.walletconnect.org",
+  "https://*.web3modal.org",
+  "https://*.reown.com",
   "https://*.coinbase.com",
   "wss://www.walletlink.org",
   ...(isDev ? ["http://localhost:*", "ws://localhost:*"] : []),
@@ -33,7 +35,8 @@ function buildCsp(scriptSrc: string): string {
     "default-src 'self'",
     `script-src ${scriptSrc}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
+    // Wallet icons in the AppKit modal come from Reown's image CDNs.
+    "img-src 'self' data: blob: https://*.walletconnect.com https://*.walletconnect.org https://*.web3modal.org https://imagedelivery.net",
     "font-src 'self' data:",
     `connect-src ${connectSrc}`,
     "frame-src https://verify.walletconnect.com https://verify.walletconnect.org",

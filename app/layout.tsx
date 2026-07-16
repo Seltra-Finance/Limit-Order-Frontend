@@ -2,9 +2,26 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/providers";
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: "Seltra",
   description: "Wallet-native limit orders on Avalanche.",
+  openGraph: {
+    title: "Seltra — wallet-native limit orders on Avalanche",
+    description:
+      "Gasless signed orders, filled by aggregated DEX liquidity or matched trader-to-trader. Your price or better, always from your wallet.",
+    url: appUrl,
+    siteName: "Seltra",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Seltra — wallet-native limit orders on Avalanche",
+    description:
+      "Gasless signed orders, filled by aggregated DEX liquidity or matched trader-to-trader. Your price or better.",
+  },
 };
 
 // Every page renders per-request so Next can stamp the middleware's CSP nonce

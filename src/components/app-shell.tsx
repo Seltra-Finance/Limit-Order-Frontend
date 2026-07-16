@@ -1,12 +1,13 @@
 "use client";
 
-import { Activity, BarChart3, ShieldCheck, Triangle, Wifi, WifiOff } from "lucide-react";
+import { Activity, BarChart3, Menu, ShieldCheck, Triangle, Wifi, WifiOff, X } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useBlockNumber, useReadContract } from "wagmi";
 import { seltraConfig, isConfiguredAddress, pairById, defaultTradePath } from "@/config/seltra.config";
 import { seltraSettlementAbi } from "@/lib/abi";
 import { bookDepthQuote, bookMid, useOrderbook, useQuote, useStats, useWsStatus } from "@/lib/market-data";
-import { ThemeToggle } from "@/components/theme-controls";
+import { applyTradeMode, ThemeToggle } from "@/components/theme-controls";
 import { WalletButton, WalletDialogProvider } from "@/components/wallet-button";
 
 function compactUsd(value: number): string {
@@ -42,19 +43,20 @@ export function AppShell({ children, pairId, modeControl }: { children: React.Re
             <Link className="brand" href="/" aria-label="Seltra home">
               <span className="brand-mark" />
               <span className="brand-word">Seltra</span>
+              {seltraConfig.chainId === 43113 ? <span className="testnet-tag">Testnet</span> : null}
             </Link>
             <nav className="nav-links" aria-label="Application">
               <Link href="/trade">Markets</Link>
               <Link href={defaultTradePath}>Trade</Link>
               <Link href="/orders">Orders</Link>
               <Link href="/stats">Stats</Link>
-              <Link href="/docs">Docs</Link>
             </nav>
           </div>
           <div className="exchange-nav-actions">
             <ThemeToggle />
             {modeControl}
             <WalletButton />
+            <MobileNav />
           </div>
         </header>
         <div className="market-strip" aria-label="Market summary">
@@ -105,6 +107,50 @@ export function AppShell({ children, pairId, modeControl }: { children: React.Re
         </footer>
       </div>
     </WalletDialogProvider>
+  );
+}
+
+/**
+ * Mobile-only (≤768px) menu for the nav links the compact header hides.
+ * Mobile is deliberately Simple-only — no Pro toggle here — but a Pro cookie
+ * carried over from desktop gets an escape hatch back to Simple.
+ */
+function MobileNav() {
+  const [open, setOpen] = useState(false);
+  const [showExitPro, setShowExitPro] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    setShowExitPro(
+      document.documentElement.dataset.density === "pro" && window.location.pathname.startsWith("/trade/"),
+    );
+  }, [open]);
+
+  return (
+    <div className="mobile-nav">
+      <button
+        className="icon-button"
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+      >
+        {open ? <X size={17} /> : <Menu size={17} />}
+      </button>
+      {open ? (
+        <nav className="popover mobile-nav-sheet" aria-label="Application">
+          <Link href="/trade" onClick={() => setOpen(false)}>Markets</Link>
+          <Link href={defaultTradePath} onClick={() => setOpen(false)}>Trade</Link>
+          <Link href="/orders" onClick={() => setOpen(false)}>Orders</Link>
+          <Link href="/stats" onClick={() => setOpen(false)}>Stats</Link>
+          {showExitPro ? (
+            <a href="?mode=simple" onClick={() => applyTradeMode("simple")}>
+              Exit Pro mode
+            </a>
+          ) : null}
+        </nav>
+      ) : null}
+    </div>
   );
 }
 
