@@ -5,6 +5,7 @@ import { useState } from "react";
 import { formatToken } from "@/lib/format";
 import type { OrderEntryMachine } from "@/hooks/use-order-entry-machine";
 import { GridOrderForm } from "@/components/grid-order-form";
+import { InfoTip } from "@/components/info-tip";
 
 export function OrderForm({ machine: m, midPrice }: { machine: OrderEntryMachine; midPrice?: number }) {
   const [advancedOpen, setAdvancedOpen] = useState(false);
@@ -26,13 +27,21 @@ export function OrderForm({ machine: m, midPrice }: { machine: OrderEntryMachine
         <div className="panel-head">
           <div>
             <p className="eyebrow">Order entry</p>
-            <h2>Grid of limit orders</h2>
+            <h2>
+              Grid bot{" "}
+              <InfoTip>
+                A grid places a ladder of limit orders across your price range: buys below the current price, sells
+                above it. When the market crosses a level, that order fills once at its price or better. Filled levels
+                stay filled — nothing is re-placed automatically. Every level is a normal gasless Seltra limit order,
+                signed individually in your wallet, and you can cancel any of them at any time.
+              </InfoTip>
+            </h2>
           </div>
         </div>
         <div className="order-kind-tabs" role="tablist" aria-label="Order type">
           <button type="button" role="tab" aria-selected={false} onClick={() => pickKind("limit")}>Limit</button>
           <button type="button" role="tab" aria-selected={false} onClick={() => pickKind("market")}>Market</button>
-          <button className="active" type="button" role="tab" aria-selected>Grid</button>
+          <button className="active" type="button" role="tab" aria-selected>Bot</button>
         </div>
         <GridOrderForm pairId={pair.id} referencePrice={m.referencePrice ?? midPrice} />
       </section>
@@ -50,7 +59,7 @@ export function OrderForm({ machine: m, midPrice }: { machine: OrderEntryMachine
       <div className="order-kind-tabs" role="tablist" aria-label="Order type">
         <button className={m.kind === "limit" ? "active" : ""} type="button" role="tab" aria-selected={m.kind === "limit"} onClick={() => pickKind("limit")}>Limit</button>
         <button className={m.kind === "market" ? "active" : ""} type="button" role="tab" aria-selected={m.kind === "market"} onClick={() => pickKind("market")}>Market</button>
-        <button type="button" role="tab" aria-selected={false} onClick={() => setGridOpen(true)}>Grid</button>
+        <button type="button" role="tab" aria-selected={false} onClick={() => setGridOpen(true)}>Bot</button>
       </div>
       <div className="side-tabs">
         <button className={m.side === "buy" ? "active buy-tab" : ""} type="button" onClick={() => m.setSide("buy")}>

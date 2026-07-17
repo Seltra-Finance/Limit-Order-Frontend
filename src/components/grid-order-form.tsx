@@ -14,6 +14,11 @@ export function GridOrderForm({ pairId, referencePrice }: { pairId: string; refe
   const inFlow = g.state.tag !== "editing" && g.state.tag !== "rejected";
   return (
     <div className="grid-form" aria-busy={g.busy}>
+      <div className="order-kind-tabs strategy-tabs" role="tablist" aria-label="Bot strategy">
+        <button className="active" type="button" role="tab" aria-selected>Grid</button>
+        <button type="button" role="tab" aria-selected={false} disabled title="Coming soon">DCA</button>
+        <button type="button" role="tab" aria-selected={false} disabled title="Coming soon">Martingale</button>
+      </div>
       {inFlow && g.plan ? <GridFlow g={g} plan={g.plan} /> : <GridConfigForm g={g} />}
     </div>
   );
