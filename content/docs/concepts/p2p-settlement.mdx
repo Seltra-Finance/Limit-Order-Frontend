@@ -14,13 +14,15 @@ Let order A sell token X for token Y and order B sell token Y for token X:
 * `A.makingAmount == B.takingAmount`
 * B's offered Y amount must cross A's minimum price
 
-The crossing check uses integer cross-multiplication:
+Because the base leg is exact and both order amounts must be nonzero, the
+crossing condition reduces without multiplication:
 
 ```
-B.makingAmount × A.makingAmount
-    >=
-A.takingAmount × B.takingAmount
+B.makingAmount >= A.takingAmount
 ```
+
+This comparison is equivalent to the rational price check under the exact-size
+constraint and cannot overflow for valid `uint256` order amounts.
 
 ### Distribution
 

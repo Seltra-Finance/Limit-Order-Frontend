@@ -28,11 +28,11 @@ order: 22
 
 ### Common revert categories
 
-* **Order validity:** `BadMaker`, `BadReceiver`, `OrderExpired`, `InvalidEpoch`, `PrivateOrder`, `BadFlags`
+* **Order validity:** `BadMaker`, `BadReceiver`, `ZeroAmount`, `OrderExpired`, `InvalidEpoch`, `PrivateOrder`, `BadFlags`
 * **Permit mismatch:** `BadPermitToken`, `BadPermitAmount`, `BadPermitDeadline`
 * **Economics:** `InsufficientOutput`, `PriceNotCrossed`, `SizeMismatch`, `AssetMismatch`
-* **Policy:** `TokenNotAllowed`, `UnknownAdapter`, `FillsPausedError`
+* **Policy:** `TokenNotAllowed`, `UnsupportedToken`, `UnknownAdapter`, `FillsPausedError`
 * **Authorization:** `NotGuardian`, `OnlySettlement`, `OnlyRouter`
-* **Route validation:** `BadPath`, `BadRoute`, `BadTickSpacing`, `PoolNotAllowed`
+* **Route validation:** `BadPath`, `BadRoute`, `BadTickSpacing`, `DeadlineExpired`, `RouteNotAllowed`
 
 Integrations should decode custom errors where possible and treat Permit2 nonce-consumption failures as expected race outcomes.

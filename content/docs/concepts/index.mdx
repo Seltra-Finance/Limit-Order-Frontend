@@ -28,7 +28,7 @@ flowchart LR
 | ------------------ | ----------------------------------------------------- |
 | Maker identity     | Permit2 witness signature                             |
 | Replay protection  | Permit2 unordered nonce                               |
-| Minimum proceeds   | Signed `takingAmount` plus balance-delta verification |
+| Minimum proceeds   | Signed `takingAmount` plus exact recipient delivery   |
 | Order expiry       | Signed `expiry` checked at fill time                  |
 | Mass cancellation  | Maker epoch                                           |
 | Private execution  | Optional `allowedSender`                              |

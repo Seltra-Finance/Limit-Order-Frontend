@@ -27,7 +27,7 @@ Seltra assumes makers, keepers, venues, RPC providers, and governance actors can
 | Sandwiching the DEX leg     | Signed minimum, simulation, short route deadline, balance-delta enforcement |
 | Malicious adapter target    | Write-once registry and no arbitrary calls                                  |
 | Reentrancy                  | Non-reentrant Settlement entry points                                       |
-| Problematic ERC-20 behavior | Governance allowlist policy                                                 |
+| Problematic ERC-20 behavior | Governance allowlist plus exact recipient balance-delta enforcement         |
 | Compromised venue           | Adapter-specific guardian pause                                             |
 | Compromised guardian        | Guardian can pause but cannot unpause or change policy                      |
 | Compromised former owner    | Ownable2Step handoff and delayed governance                                 |

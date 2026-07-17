@@ -20,13 +20,16 @@ sequenceDiagram
     R->>A: exact registered venue call
     A-->>R: realized takerAsset
     R-->>S: takerAsset
-    S->>S: verify balance delta >= takingAmount
+    S->>S: verify output and exact recipient delivery
     S-->>K: keeper reward
 ```
 
 The keeper chooses only `adapterId` and venue-specific `extra`. Token addresses, input size, minimum output, and proceeds receiver come from the signed order.
 
-Settlement measures the taker token balance before and after routing. It does not trust a venue's return value for maker accounting.
+Settlement measures the taker token balance before and after routing. It does
+not trust a venue's return value for maker accounting. Each payout must also
+increase its recipient's balance by the exact nominal amount; unsupported
+transfer behavior reverts the fill atomically.
 
 ### Preconditions
 

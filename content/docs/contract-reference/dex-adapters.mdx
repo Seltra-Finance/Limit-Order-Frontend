@@ -1,6 +1,6 @@
 ---
 title: "DEX Adapters"
-description: "abi.encode("
+description: "Adapter IDs, route encodings, and execution safeguards."
 section: "Contract Reference"
 order: 21
 ---
@@ -8,9 +8,9 @@ order: 21
 | ID | Adapter          | Route `extra`                               | Status                    |
 | -: | ---------------- | ------------------------------------------- | ------------------------- |
 |  0 | MockDEXAdapter   | Empty bytes                                 | Fuji test stack only      |
-|  1 | LFJLBAdapter     | Deadline, bin steps, versions, token path   | Production implementation |
-|  2 | BlackholeAdapter | Deadline and one allowlisted RouterV2 route | Production implementation |
-|  3 | PharaohAdapter   | `abi.encode(int24 tickSpacing)`             | Production implementation |
+|  1 | LFJLBAdapter     | Deadline and one direct LB route              | Production implementation |
+|  2 | BlackholeAdapter | Deadline and one fully allowlisted route tuple | Reserved; not registered   |
+|  3 | PharaohAdapter   | `abi.encode(uint256 deadline, int24 spacing)`  | Production implementation |
 
 ### LFJ Liquidity Book
 
@@ -23,15 +23,23 @@ abi.encode(
 )
 ```
 
-Path endpoints must match the order-derived assets. Quotes use LBQuoter best-path discovery; swaps use the LBRouter.
+V1 requires exactly two tokens, one bin step, and one version. Path endpoints
+must match the order-derived assets. Intermediate-token routes are rejected.
+Quotes use LBQuoter best-path discovery; swaps use the LBRouter.
 
 ### Blackhole
 
-The V1 adapter accepts one direct hop. The pool must be allowlisted, route endpoints must match the order, and the route receiver must be the Seltra router. Quotes use RouterHelper.
+The pre-production adapter accepts one direct hop. Authorization binds the
+pair, both endpoints, the stable flag, and the concentrated flag into one
+route key; the receiver must be the Seltra router. ID 2 remains unregistered
+while upstream pool resolution receives independent validation.
 
 ### Pharaoh
 
-The adapter supports one concentrated-liquidity hop. Tick spacing must be positive. The official QuoterV2 performs an internal simulated swap, so clients invoke router quotes through `eth_call` rather than relying on Solidity `STATICCALL`.
+The adapter supports one concentrated-liquidity hop. The keeper supplies a
+short deadline and positive tick spacing; expired deadlines revert and the
+supplied value is forwarded unchanged. The official QuoterV2 performs an
+internal simulated swap, so clients invoke router quotes through `eth_call`.
 
 ### Shared safeguards
 

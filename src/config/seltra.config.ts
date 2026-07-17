@@ -52,14 +52,14 @@ export interface SeltraConfig {
 // until .env.local supplies the real addresses.
 const baseToken: TokenConfig = {
   symbol: env(process.env.NEXT_PUBLIC_BASE_SYMBOL, "sWAVAX"),
-  address: addressEnv(process.env.NEXT_PUBLIC_BASE_TOKEN, "0x146a4Dc8aF9dEaa49030F4b47F5918113833b683"),
+  address: addressEnv(process.env.NEXT_PUBLIC_BASE_TOKEN, "0x760D9a5B4ae94f5e6c3ce014e3C116544515C830"),
   decimals: Number(env(process.env.NEXT_PUBLIC_BASE_DECIMALS, "18")),
   logo: env(process.env.NEXT_PUBLIC_BASE_SYMBOL, "sWAVAX").slice(0, 1).toUpperCase(),
 };
 
 const quoteToken: TokenConfig = {
   symbol: env(process.env.NEXT_PUBLIC_QUOTE_SYMBOL, "sUSDC"),
-  address: addressEnv(process.env.NEXT_PUBLIC_QUOTE_TOKEN, "0xD3a5aaC492e43B160a41Fc766cf1A5000F560800"),
+  address: addressEnv(process.env.NEXT_PUBLIC_QUOTE_TOKEN, "0x00B766567013BbCe12bF802f6E7C65F6da581Efe"),
   decimals: Number(env(process.env.NEXT_PUBLIC_QUOTE_DECIMALS, "6")),
   logo: env(process.env.NEXT_PUBLIC_QUOTE_SYMBOL, "sUSDC").slice(0, 1).toUpperCase(),
 };

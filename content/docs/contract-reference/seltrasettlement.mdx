@@ -35,5 +35,6 @@ order: 19
 * `makerSurplusBps` defaults to 7,000.
 * `protocolFeeBps` is capped at 1,000 bps of the keeper side.
 * `fillsPaused` blocks fills but not cancellation.
+* Every payout verifies the recipient's exact balance increase.
 
 All fill entry points are protected by non-reentrancy.
