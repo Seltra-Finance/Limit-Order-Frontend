@@ -33,8 +33,8 @@ const quoteSymbol = env("QUOTE_SYMBOL", "sUSDC");
 const pairs: PairConfig[] = [
   {
     id: `${baseSymbol}-${quoteSymbol}`,
-    baseAsset: env("BASE_TOKEN", "0x146a4Dc8aF9dEaa49030F4b47F5918113833b683") as Address,
-    quoteAsset: env("QUOTE_TOKEN", "0xD3a5aaC492e43B160a41Fc766cf1A5000F560800") as Address,
+    baseAsset: env("BASE_TOKEN", "0x760D9a5B4ae94f5e6c3ce014e3C116544515C830") as Address,
+    quoteAsset: env("QUOTE_TOKEN", "0x00B766567013BbCe12bF802f6E7C65F6da581Efe") as Address,
     baseSymbol,
     quoteSymbol,
     baseDecimals: Number(env("BASE_DECIMALS", "18")),

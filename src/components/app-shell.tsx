@@ -7,6 +7,7 @@ import { useBlockNumber, useReadContract } from "wagmi";
 import { seltraConfig, isConfiguredAddress, pairById, defaultTradePath } from "@/config/seltra.config";
 import { seltraSettlementAbi } from "@/lib/abi";
 import { bookDepthQuote, bookMid, useOrderbook, useQuote, useStats, useWsStatus } from "@/lib/market-data";
+import { SeltraMark } from "@/components/seltra-mark";
 import { applyTradeMode, ThemeToggle } from "@/components/theme-controls";
 import { WalletButton, WalletDialogProvider } from "@/components/wallet-button";
 
@@ -41,7 +42,7 @@ export function AppShell({ children, pairId, modeControl }: { children: React.Re
         <header className="exchange-nav">
           <div className="exchange-nav-left">
             <Link className="brand" href="/" aria-label="Seltra home">
-              <span className="brand-mark" />
+              <SeltraMark className="brand-mark" />
               <span className="brand-word">Seltra</span>
               {seltraConfig.chainId === 43113 ? <span className="testnet-tag">Testnet</span> : null}
             </Link>
@@ -50,6 +51,7 @@ export function AppShell({ children, pairId, modeControl }: { children: React.Re
               <Link href={defaultTradePath}>Trade</Link>
               <Link href="/orders">Orders</Link>
               <Link href="/stats">Stats</Link>
+              <Link href="/docs">Docs</Link>
             </nav>
           </div>
           <div className="exchange-nav-actions">
@@ -143,6 +145,7 @@ function MobileNav() {
           <Link href={defaultTradePath} onClick={() => setOpen(false)}>Trade</Link>
           <Link href="/orders" onClick={() => setOpen(false)}>Orders</Link>
           <Link href="/stats" onClick={() => setOpen(false)}>Stats</Link>
+          <Link href="/docs" onClick={() => setOpen(false)}>Docs</Link>
           {showExitPro ? (
             <a href="?mode=simple" onClick={() => applyTradeMode("simple")}>
               Exit Pro mode

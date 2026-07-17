@@ -1,0 +1,25 @@
+---
+title: "Networks & Deployments"
+description: "Seltra currently operates a public testing stack on Avalanche Fuji."
+section: "Networks & Deployments"
+order: 24
+---
+
+Seltra currently operates a public testing stack on Avalanche Fuji.
+
+| Environment               | Chain ID | Status               |
+| ------------------------- | -------: | -------------------- |
+| Avalanche Fuji            |  `43113` | Live test deployment |
+| Avalanche C-Chain mainnet |  `43114` | Not deployed         |
+
+<Callout type="danger">
+
+Fuji contracts and demo tokens are for testing only. Do not send production assets to testnet addresses.
+
+</Callout>
+
+### Fuji stack
+
+The Fuji deployment mirrors the intended governance shape with a Safe guardian and a 48-hour Timelock. The Safe is intentionally 1-of-1 for staging and is not a suitable production signer policy.
+
+The complete address table and copyable environment configuration are provided in the child pages.
